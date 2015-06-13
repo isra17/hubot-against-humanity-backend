@@ -5,6 +5,8 @@ PlayerCard = db.Table('player_cards', db.Model.metadata,
     db.Column('card_id', db.Integer, db.ForeignKey('cards.id'))
 )
 
+MAX_CARD_COUNT = 10
+
 class Player(db.Model):
     __tablename__ = 'players'
 
@@ -30,3 +32,9 @@ class Player(db.Model):
             'played_card': None,
             'score': self.score
         }
+
+    def pick_cards(self):
+        cards = self.game.pick_cards(MAX_CARD_COUNT - len(self.cards))
+        for card in cards:
+            self.cards.append(card)
+

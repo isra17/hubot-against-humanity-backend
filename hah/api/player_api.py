@@ -11,7 +11,9 @@ class PlayerApi(restful.Resource):
         player_id = request.form.get('id')
         player = Player(
                 id=player_id,
-                game_id=game.id)
+                game=game)
+
+        player.pick_cards()
 
         db.session.add(player)
         db.session.commit()

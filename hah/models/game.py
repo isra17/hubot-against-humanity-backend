@@ -1,5 +1,6 @@
 from datetime import datetime
 from hah import db
+from hah.models.card import Card
 
 class Game(db.Model):
     __tablename__ = 'games'
@@ -9,7 +10,8 @@ class Game(db.Model):
     players =   db.relationship(
             "Player",
             order_by='Player.id',
-            foreign_keys='Player.game_id')
+            foreign_keys='Player.game_id',
+            backref="game")
 
     active_player_id = db.Column(
             db.Integer,
@@ -33,3 +35,7 @@ class Game(db.Model):
             'active_player': self.active_player,
             'players': self.players_ids()
         }
+
+    def pick_cards(self, count):
+        return [Card()]
+
