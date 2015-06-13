@@ -11,14 +11,14 @@ class GameApi(restful.Resource):
         if api_client.game is None:
             raise errors.NoGameRunningError()
 
-        return self.api_client.game.serialize()
+        return api_client.game.serialize()
 
     def post(self, api_client):
         if api_client.game is not None:
             raise errors.GameAlreadyExistError()
 
         game = Game()
-        self.api_client.game = game
+        api_client.game = game
         db.session.add(game)
         db.session.commit()
         return game.serialize()
@@ -27,7 +27,7 @@ class GameApi(restful.Resource):
         if api_client.game is None:
             raise errors.NoGameRunningError()
 
-        db.session.delete(self.api_client.game)
+        db.session.delete(api_client.game)
         db.session.commit()
         return {}
 
