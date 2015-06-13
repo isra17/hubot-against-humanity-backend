@@ -1,0 +1,8 @@
+ENV='test'
+SQLALCHEMY_DATABASE_URI = "sqlite://"
+TESTING = True
+
+SHARED_SECRET = '\x00'*128
+
+LOGGING_ENABLED = False
+

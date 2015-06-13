@@ -1,0 +1,17 @@
+machine:
+  python:
+    version: 3.4.2
+
+dependencies:
+  override:
+    - pip install -r requirements/test.txt
+
+test:
+  override:
+    - python -m unittest discover -s tests -v
+
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: hubot-against-humanity-backend
