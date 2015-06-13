@@ -24,3 +24,12 @@ class GameApi(restful.Resource):
         db.session.commit()
         return game.serialize()
 
+    def delete(self):
+        if self.api_client.game is None:
+            raise errors.NoGameRunningError()
+
+        db.session.delete(self.api_client.game)
+        db.session.commit()
+        return {}
+
+

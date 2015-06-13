@@ -20,6 +20,5 @@ class Player(db.Model):
     played_card_id =db.Column(db.Integer, db.ForeignKey('cards.id'), nullable=True)
     played_card =   db.relationship("Card", uselist=False)
 
-    name = 	    db.Column(db.String)
     score =	    db.Column(db.Integer)
 

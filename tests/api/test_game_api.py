@@ -31,8 +31,18 @@ class GameApiTest(HahTest):
         self.api_client.game = game
 
         rv = self.auth_get('/game')
+        self.assert_200(rv)
         rv_data = json.loads(rv.data.decode('utf-8'))
 
         self.assertIn('id', rv_data)
         self.assertEqual(0, rv_data['turn'])
+
+    def test_delete_game(self):
+        game = GameFactory()
+        self.api_client.game = game
+
+        rv = self.auth_delete('/game')
+        self.assert_200(rv)
+
+        self.assertIsNone(ApiClient.query.first().game)
 

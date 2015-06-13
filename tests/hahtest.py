@@ -26,6 +26,10 @@ class HahTest(TestCase):
         self._add_header_auth_token(kwargs)
         return self.client.get(*args, **kwargs)
 
+    def auth_delete(self, *args, **kwargs):
+        self._add_header_auth_token(kwargs)
+        return self.client.delete(*args, **kwargs)
+
     def _add_header_auth_token(self, kwargs):
         if not 'headers' in kwargs:
             kwargs['headers'] = {}
