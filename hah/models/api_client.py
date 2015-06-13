@@ -1,8 +1,8 @@
 from hah import db
-import random
+import os
 
 def new():
-    client = ApiClient(shared_secret=random.getrandbits(256))
+    client = ApiClient(shared_secret=os.random(32))
     return client
 
 class ApiClient(db.Model):
