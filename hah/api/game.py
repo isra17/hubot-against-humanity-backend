@@ -6,12 +6,14 @@ class Game(restful.Resource):
 
     def get(self):
         return {
+            'id': 1,
             'player': [],
             'turn': 0
         }
 
     def post(self):
         return {
+            'id': 1,
             'player': [],
             'turn': 0
         }

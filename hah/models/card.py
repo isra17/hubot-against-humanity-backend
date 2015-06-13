@@ -1,7 +1,7 @@
 from datetime import datetime
 from hah import db
 
-class Cards(db.Model):
+class Card(db.Model):
     __tablename__ = 'cards'
 
     id =        db.Column(db.Integer, primary_key=True)

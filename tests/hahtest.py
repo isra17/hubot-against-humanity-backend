@@ -1,8 +1,9 @@
 import unittest
 import config
 from datetime import datetime
-from hah import create_app, db
 from flask.ext.testing import TestCase
+from hah import create_app, db
+from hah.models import *
 
 class HahTest(TestCase):
     def create_app(self):

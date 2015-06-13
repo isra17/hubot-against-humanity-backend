@@ -4,12 +4,21 @@ from hah import db
 class Game(db.Model):
     __tablename__ = 'games'
 
-    id =	    db.Column(db.Integer, primary_key=True)
+    id =        db.Column(db.Integer, primary_key=True)
 
-    players =       db.relationship("Player", order_by='Player.id')
+    players =   db.relationship(
+            "Player",
+            order_by='Player.id',
+            foreign_keys='Player.game_id')
 
-    active_player_id = db.Column(db.Integer, ForeignKey('players.id'), nullable=True)
-    active_player = db.relationship("Player", uselist=False)
+    active_player_id = db.Column(
+            db.Integer,
+            db.ForeignKey('players.id'),
+            nullable=True)
+    active_player = db.relationship(
+            "Player",
+            uselist=False,
+            foreign_keys=[active_player_id])
 
     channel = 	    db.Column(db.String)
     turn =	    db.Column(db.Integer)

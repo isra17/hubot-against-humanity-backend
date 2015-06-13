@@ -10,7 +10,7 @@ class ApiClient(db.Model):
 
     id =	    db.Column(db.Integer, primary_key=True)
 
-    game_id =       db.Column(Integer, ForeignKey('games.id'))
+    game_id =       db.Column(db.Integer, db.ForeignKey('games.id'))
     game =          db.relationship("Game", uselist=False, backref="api_client")
 
     shared_secret = db.Column(db.String(length=32))
