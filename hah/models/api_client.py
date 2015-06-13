@@ -3,7 +3,7 @@ import os
 
 def new():
     import base64
-    client = ApiClient(shared_secret=base64.b64decode(os.urandom(64)))
+    client = ApiClient(shared_secret=base64.b64encode(os.urandom(64)))
     return client
 
 class ApiClient(db.Model):
