@@ -1,5 +1,6 @@
 from tests.hahtest import HahTest
 from hah.models.game import Game
+from hah.models.api_client import ApiClient
 from tests.factory_boy.game_factory import GameFactory
 import json
 
@@ -13,10 +14,10 @@ class GameApiTest(HahTest):
 
         self.assertIn('id', rv_data)
         self.assertEqual(0, rv_data['turn'])
-        self.assertEqual('#slackagainsthumanity', rv_data['channel'])
 
         game = Game.query.get(rv_data['id'])
         self.assertIsNotNone(game)
+        self.assertIsNotNone(ApiClient.query.first().game)
 
     def test_create_game_already_exist(self):
         game = GameFactory()
