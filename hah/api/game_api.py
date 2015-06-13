@@ -8,11 +8,10 @@ class GameApi(restful.Resource):
     method_decorators=[shared_secret]
 
     def get(self):
-        return {
-            'id': 1,
-            'player': [],
-            'turn': 0
-        }
+        if self.api_client.game is None:
+            raise errors.NoGameRunningError()
+
+        return self.api_client.game.serialize()
 
     def post(self):
         if self.api_client.game is not None:
@@ -31,5 +30,4 @@ class GameApi(restful.Resource):
         db.session.delete(self.api_client.game)
         db.session.commit()
         return {}
-
 
