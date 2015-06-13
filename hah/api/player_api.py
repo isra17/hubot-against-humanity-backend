@@ -1,31 +1,19 @@
 from flask import request
 from flask.ext import restful
-from hah.common.authenticate import shared_secret, game_running
-from hah.models.game import Game
+from hah.common.authenticate import shared_secret, ensure_game
+from hah.models.player import Player
 from hah import db, errors
 
 class PlayerApi(restful.Resource):
-    method_decorators=[shared_secret, game_running]
+    method_decorators=[ensure_game, shared_secret]
 
-    def get(self):
-        return {
-            'id': 1,
-            'player': [],
-            'turn': 0
-        }
+    def post(self, api_client, game):
+        player_id = request.form.get('id')
+        player = Player(
+                id=player_id,
+                game_id=game.id)
 
-    def post(self):
-        if self.api_client.game is not None:
-            raise GameAlreadyExistError()
-
-        game = Game(**GameApi.params())
-        db.session.add(game)
+        db.session.add(player)
         db.session.commit()
-        return game.serialize()
-
-    def params():
-        return {
-            'name': request.form.get('name')
-        }
-
+        return player.serialize()
 

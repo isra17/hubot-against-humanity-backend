@@ -6,8 +6,11 @@ from hah import errors
 def ensure_game(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if api_client.game is not None:
-            func.__self__.game = api_client.game
+        if 'api_client' not in kwargs:
+            abort(500)
+        game = kwargs['api_client'].game
+        if game is not None:
+            kwargs['game'] = game
             return func(*args, **kwargs)
         raise errors.NoGameRunningError
     return wrapper
@@ -20,7 +23,7 @@ def shared_secret(func):
             .filter_by(shared_secret=request.headers.get('X-Secret-Token')) \
             .first()
         if api_client is not None:
-            func.__self__.api_client = api_client
+            kwargs['api_client'] = api_client
             return func(*args, **kwargs)
         abort(401)
     return wrapper
