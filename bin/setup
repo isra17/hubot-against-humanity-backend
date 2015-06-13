@@ -15,5 +15,5 @@ hah.db.drop_all()
 hah.db.create_all()
 
 c = api_client.ApiClient(shared_secret=os.environ['TEST_SHARED_SECRET'])
-hah.db.add(c)
-hah.db.commit()
+hah.db.session.add(c)
+hah.db.session.commit()
