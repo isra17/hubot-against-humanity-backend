@@ -2,7 +2,7 @@ from hah import db
 import os
 
 def new():
-    client = ApiClient(shared_secret=os.random(32))
+    client = ApiClient(shared_secret=os.urandom(32))
     return client
 
 class ApiClient(db.Model):

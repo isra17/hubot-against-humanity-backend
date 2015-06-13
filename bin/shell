@@ -11,3 +11,9 @@ os.environ['PYTHONINSPECT'] = 'True'
 from hah import *
 
 hah = create_app()
+
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+engine = create_engine(hah.config['SQLALCHEMY_DATABASE_URI'])
+Session = sessionmaker(bind=engine)
+session = Session()
