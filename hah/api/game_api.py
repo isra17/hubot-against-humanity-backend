@@ -35,3 +35,4 @@ class GameApi(restful.Resource):
         return {
             'channel': request.form.get('channel')
         }
+

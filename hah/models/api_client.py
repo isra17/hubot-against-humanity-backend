@@ -2,7 +2,8 @@ from hah import db
 import os
 
 def new():
-    client = ApiClient(shared_secret=os.urandom(32))
+    import base64
+    client = ApiClient(shared_secret=base64.b64decode(os.urandom(64)))
     return client
 
 class ApiClient(db.Model):
@@ -13,5 +14,5 @@ class ApiClient(db.Model):
     game_id =       db.Column(db.Integer, db.ForeignKey('games.id'), nullable=True)
     game =          db.relationship("Game", uselist=False)
 
-    shared_secret = db.Column(db.String(length=32))
+    shared_secret = db.Column(db.String(length=88))
 
