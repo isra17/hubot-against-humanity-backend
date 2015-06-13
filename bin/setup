@@ -11,5 +11,6 @@ from hah.models import *
 app = hah.create_app()
 app.test_request_context().push()
 
+hah.db.drop_all()
 hah.db.create_all()
 
