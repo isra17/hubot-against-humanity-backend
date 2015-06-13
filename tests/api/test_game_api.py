@@ -7,12 +7,13 @@ class GameApiTest(HahTest):
     def test_create_game(self):
         Game.query.delete()
 
-        rv = self.auth_post('/game')
+        rv = self.auth_post('/game', data={'channel':'#slackagainsthumanity'})
         self.assert_200(rv)
         rv_data = json.loads(rv.data.decode('utf-8'))
 
         self.assertIn('id', rv_data)
         self.assertEqual(0, rv_data['turn'])
+        self.assertEqual('#slackagainsthumanity', rv_data['channel'])
 
         game = Game.query.get(rv_data['id'])
         self.assertIsNotNone(game)

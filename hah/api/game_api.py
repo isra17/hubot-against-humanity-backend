@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import request
 from flask.ext import restful
 from hah.common.authenticate import shared_secret
 from hah.models.game import Game
@@ -26,8 +26,12 @@ class GameApi(restful.Resource):
         if self.api_client.game is not None:
             raise GameAlreadyExistError()
 
-        game = Game()
+        game = Game(**GameApi.params())
         db.session.add(game)
         db.session.commit()
         return game.serialize()
 
+    def params():
+        return {
+            'channel': request.form.get('channel')
+        }
