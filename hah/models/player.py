@@ -10,7 +10,7 @@ class Player(db.Model):
 
     id =	    db.Column(db.Integer, primary_key=True)
 
-    game_id =       db.Column(db.Integer, db.ForeignKey('games.id'))
+    game_id =       db.Column(db.Integer, db.ForeignKey('games.id', use_alter=True))
     cards =         db.relationship("Card", secondary=PlayerCard)
 
     played_card_id =db.Column(db.Integer, db.ForeignKey('cards.id'), nullable=True)

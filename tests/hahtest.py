@@ -4,6 +4,7 @@ from datetime import datetime
 from flask.ext.testing import TestCase
 from hah import create_app, db
 from hah.models import *
+from tests.factory_boy.api_client_factory import ApiClientFactory
 
 class HahTest(TestCase):
     def create_app(self):
@@ -11,6 +12,7 @@ class HahTest(TestCase):
 
     def setUp(self):
         db.create_all()
+        self.api_client = ApiClientFactory(shared_secret='\x00'*128)
 
     def tearDown(self):
         db.session.remove()
@@ -28,5 +30,5 @@ class HahTest(TestCase):
         if not 'headers' in kwargs:
             kwargs['headers'] = {}
 
-        kwargs['headers']['X-Secret-Token'] = config.test.SHARED_SECRET
+        kwargs['headers']['X-Secret-Token'] = self.api_client.shared_secret
 

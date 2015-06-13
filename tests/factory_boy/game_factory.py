@@ -7,5 +7,3 @@ class GameFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = Game
         sqlalchemy_session = db.session
 
-    id = factory.Sequence()
-

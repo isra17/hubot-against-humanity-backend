@@ -20,7 +20,21 @@ class Game(db.Model):
             uselist=False,
             foreign_keys=[active_player_id])
 
-    channel = 	    db.Column(db.String)
-    turn =	    db.Column(db.Integer)
-    cards_picked =  db.Column(db.Integer)
+    channel = 	    db.Column(db.String, default='hubotagainsthumanity')
+    turn =	    db.Column(db.Integer, default=0)
+    cards_picked =  db.Column(db.Integer, default=0)
 
+    def active_player_name(self):
+        return self.active_player_name if self.active_player else None
+
+    def players_names(self):
+        return [p.name for p in self.players]
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'turn': self.turn,
+            'channel': self.channel,
+            'active_player': self.active_player_name(),
+            'players': self.players_names()
+        }
