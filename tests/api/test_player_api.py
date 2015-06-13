@@ -1,6 +1,6 @@
 from tests.hahtest import HahTest
 from hah.models.game import Game
-from hah.models.api_client import ApiClient
+from hah.models.player import Player
 from hah import db
 from tests.factory_boy.game_factory import GameFactory
 import json
