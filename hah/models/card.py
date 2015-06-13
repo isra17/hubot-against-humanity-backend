@@ -6,6 +6,6 @@ class Card(db.Model):
 
     id =        db.Column(db.Integer, primary_key=True)
 
-    type =      db.Column(db.Enum('white','black'))
+    type =      db.Column(db.Enum('white','black', name='card_type'))
     text =      db.Column(db.String)
 
