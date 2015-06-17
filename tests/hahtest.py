@@ -1,3 +1,4 @@
+import json
 import unittest
 import config
 from datetime import datetime
@@ -43,4 +44,7 @@ class HahTest(TestCase):
             kwargs['headers'] = {}
 
         kwargs['headers']['X-Secret-Token'] = self.api_client.shared_secret
+        if 'data' in kwargs:
+            kwargs['content_type'] = 'application/json'
+            kwargs['data'] = json.dumps(kwargs['data'])
 
