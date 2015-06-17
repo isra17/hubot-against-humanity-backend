@@ -9,7 +9,10 @@ class PlayersApi(restful.Resource):
     method_decorators=[ensure_game, shared_secret]
 
     def post(self, api_client, game):
-        player_id = request.get_json()['id']
+        json = request.get_json()
+        player_id = json['id'] if json else None
+        if player_id is None:
+            raise errors.ParametersMissing('player_id')
         if game.players.filter_by(id=player_id).first() is not None:
             raise errors.PlayerAlreadyJoinedError()
 

@@ -64,3 +64,10 @@ class PlayerApiTest(HahTest):
         rv_data = json.loads(rv.data.decode('utf-8'))
 
         self.assertEqual('UA1', rv_data['id'])
+
+    def test_no_player_id(self):
+        game = GameFactory(deck_seed=0)
+        self.api_client.game = game
+
+        rv = self.auth_post('/game/players')
+        self.assert_status(rv, 422)
