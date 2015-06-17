@@ -1,4 +1,5 @@
 from hah import db
+from .card import Card
 
 PlayerCard = db.Table('player_cards', db.Model.metadata,
     db.Column('player_id', db.String, db.ForeignKey('players.id')),
@@ -18,17 +19,20 @@ class Player(db.Model):
                             'games.id',
                             use_alter=True,
                             name='player_game'))
-    cards =         db.relationship("Card", secondary=PlayerCard)
+    cards =         db.relationship("Card", secondary=PlayerCard, order_by=Card.id)
 
     played_card_id =db.Column(db.Integer, db.ForeignKey('cards.id'), nullable=True)
     played_card =   db.relationship("Card", uselist=False)
 
     score =	    db.Column(db.Integer, default=0)
 
+    def cards_text(self):
+        return [c.text for c in self.cards]
+
     def serialize(self):
         return {
             'id': self.id,
-            'cards': [],
+            'cards': self.cards_text(),
             'played_card': None,
             'score': self.score
         }

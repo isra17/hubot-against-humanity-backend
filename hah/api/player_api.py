@@ -40,6 +40,9 @@ def ensure_player(func):
 class PlayerApi(restful.Resource):
     method_decorators=[ensure_player, ensure_game, shared_secret]
 
+    def get(self, api_client, game, player):
+        return player.serialize()
+
     def delete(self, api_client, game, player):
         db.session.delete(player)
         db.session.commit()

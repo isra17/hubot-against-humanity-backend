@@ -51,6 +51,16 @@ class PlayerApiTest(HahTest):
         self.assert_200(rv)
 
         db.session.refresh(game)
-        self.assertEqual([13, 34, 30, 37, 45, 43, 48, 51, 56, 59], [c.id for c in Player.query.get('UA1').cards])
+        self.assertEqual([13, 30, 34, 37, 43, 45, 48, 51, 56, 59], [c.id for c in Player.query.get('UA1').cards])
         self.assertTrue(game.cards_picked >= 10)
 
+    def test_get_player(self):
+        game = GameFactory(deck_seed=0)
+        self.api_client.game = game
+        game.players.append(PlayerFactory(id='UA1'))
+
+        rv = self.auth_get('/game/players/UA1')
+        self.assert_200(rv)
+        rv_data = json.loads(rv.data.decode('utf-8'))
+
+        self.assertEqual('UA1', rv_data['id'])
