@@ -9,3 +9,5 @@ class Card(db.Model):
     type =      db.Column(db.Enum('white','black', name='card_type'))
     text =      db.Column(db.String)
 
+    deleted_at =db.Column(db.DateTime)
+

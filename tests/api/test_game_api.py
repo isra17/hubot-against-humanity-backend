@@ -6,8 +6,6 @@ import json
 
 class GameApiTest(HahTest):
     def test_create_game(self):
-        Game.query.delete()
-
         rv = self.auth_post('/game', data={'channel':'#slackagainsthumanity'})
         self.assert_200(rv)
         rv_data = json.loads(rv.data.decode('utf-8'))
@@ -18,6 +16,7 @@ class GameApiTest(HahTest):
         game = Game.query.get(rv_data['id'])
         self.assertIsNotNone(game)
         self.assertIsNotNone(ApiClient.query.first().game)
+        self.assertEqual(60, game.deck_size)
 
     def test_create_game_already_exist(self):
         game = GameFactory()

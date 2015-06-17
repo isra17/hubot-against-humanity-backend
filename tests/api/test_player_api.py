@@ -42,4 +42,14 @@ class PlayerApiTest(HahTest):
 
         self.assertEqual(0, game.players.count())
 
+    def test_pick_cards_on_create(self):
+        game = GameFactory(deck_seed=0)
+        self.api_client.game = game
+        db.session.commit()
+
+        rv = self.auth_post('/game/players', data={'id': 'UA1'})
+        self.assert_200(rv)
+
+        self.assertEqual([13, 34, 30, 37, 45, 43, 48, 51, 56, 59], [c.id for c in Player.query.get('UA1').cards])
+        self.assertTrue(game.cards_picked >= 10)
 

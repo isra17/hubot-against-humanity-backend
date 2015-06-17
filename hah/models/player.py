@@ -34,7 +34,7 @@ class Player(db.Model):
         }
 
     def pick_cards(self):
-        cards = self.game.pick_cards(MAX_CARD_COUNT - len(self.cards))
+        cards = self.game.pick_white_cards(MAX_CARD_COUNT - len(self.cards))
         for card in cards:
             self.cards.append(card)
 

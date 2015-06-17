@@ -5,6 +5,13 @@ from flask.ext.testing import TestCase
 from hah import create_app, db
 from hah.models import *
 from tests.factory_boy.api_client_factory import ApiClientFactory
+from tests.factory_boy.card_factory import CardFactory
+
+def create_cards():
+    for i in range(10):
+        CardFactory(type='black')
+    for i in range(50):
+        CardFactory(type='white')
 
 class HahTest(TestCase):
     def create_app(self):
@@ -13,6 +20,7 @@ class HahTest(TestCase):
     def setUp(self):
         db.create_all()
         self.api_client = ApiClientFactory(shared_secret='\x00'*128)
+        create_cards()
 
     def tearDown(self):
         db.session.remove()
