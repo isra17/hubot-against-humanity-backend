@@ -1,7 +1,7 @@
 from hah import db
 
 PlayerCard = db.Table('player_cards', db.Model.metadata,
-    db.Column('player_id', db.Integer, db.ForeignKey('players.id')),
+    db.Column('player_id', db.String, db.ForeignKey('players.id')),
     db.Column('card_id', db.Integer, db.ForeignKey('cards.id'))
 )
 
