@@ -9,7 +9,7 @@ class Game(db.Model):
 
     players =   db.relationship(
             "Player",
-            order_by='Player.id',
+            lazy='dynamic',
             foreign_keys='Player.game_id',
             backref="game")
 
@@ -26,7 +26,7 @@ class Game(db.Model):
     cards_picked =  db.Column(db.Integer, default=0)
 
     def players_ids(self):
-        return [p.id for p in self.players]
+        return [p.id for p in self.players.all()]
 
     def serialize(self):
         return {

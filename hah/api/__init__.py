@@ -5,5 +5,6 @@ def Api(app):
     api = restful.Api(app)
 
     api.add_resource(game_api.GameApi, '/game')
-    api.add_resource(player_api.PlayerApi, '/game/players')
+    api.add_resource(player_api.PlayersApi, '/game/players')
+    api.add_resource(player_api.PlayerApi, '/game/players/<string:player_id>')
 
