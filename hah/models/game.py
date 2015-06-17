@@ -15,7 +15,7 @@ class Game(db.Model):
             backref="game")
 
     active_player_id = db.Column(
-            db.Integer,
+            db.String,
             db.ForeignKey('players.id'),
             nullable=True)
     active_player = db.relationship(

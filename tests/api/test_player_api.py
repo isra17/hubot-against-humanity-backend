@@ -50,6 +50,7 @@ class PlayerApiTest(HahTest):
         rv = self.auth_post('/game/players', data={'id': 'UA1'})
         self.assert_200(rv)
 
+        db.session.refresh(game)
         self.assertEqual([13, 34, 30, 37, 45, 43, 48, 51, 56, 59], [c.id for c in Player.query.get('UA1').cards])
         self.assertTrue(game.cards_picked >= 10)
 
