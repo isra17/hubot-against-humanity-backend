@@ -30,7 +30,7 @@ class Game(db.Model):
 
     def __init__(self, **kw):
         self.deck_size = Card.query.count()
-        self.deck_seed = struct.unpack('I', os.urandom(4))[0]
+        self.deck_seed = struct.unpack('i', os.urandom(4))[0]
         super().__init__(**kw)
 
     def players_ids(self):
