@@ -9,6 +9,9 @@ class PlayerApi(restful.Resource):
 
     def post(self, api_client, game):
         player_id = request.form.get('id')
+        if any(player_id == p.id for p in game.players):
+            raise errors.PlayerAlreadyJoinedError()
+
         player = Player(
                 id=player_id,
                 game=game)

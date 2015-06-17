@@ -10,7 +10,7 @@ MAX_CARD_COUNT = 10
 class Player(db.Model):
     __tablename__ = 'players'
 
-    id =	    db.Column(db.Integer, primary_key=True)
+    id =	    db.Column(db.String, primary_key=True)
     order_id =      db.Column(db.Integer, db.Sequence('order_seq'))
 
     game_id =       db.Column(db.Integer,

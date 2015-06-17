@@ -10,12 +10,23 @@ class PlayerApiTest(HahTest):
         game = GameFactory()
         self.api_client.game = game
 
-        rv = self.auth_post('/game/players', data={'id': 123})
+        rv = self.auth_post('/game/players', data={'id': 'UA123'})
         self.assert_200(rv)
         rv_data = json.loads(rv.data.decode('utf-8'))
 
-        self.assertEqual(123, rv_data['id'])
+        self.assertEqual('UA123', rv_data['id'])
 
         db.session.refresh(game)
-        self.assertEqual(123, game.players[0].id)
+        self.assertEqual('UA123', game.players[0].id)
 
+    def test_join_game_twice(self):
+        game = GameFactory()
+        self.api_client.game = game
+
+        rv = self.auth_post('/game/players', data={'id': 'UA123'})
+        self.assert_200(rv)
+        rv = self.auth_post('/game/players', data={'id': 'UA123'})
+        self.assert_status(rv, 422)
+
+        db.session.refresh(game)
+        self.assertEqual(1, len(game.players))
