@@ -67,3 +67,9 @@ class PlayerApi(restful.Resource):
         db.session.delete(player)
         db.session.commit()
         return {}
+
+class VoteApi(restful.Resource):
+    method_decorators=[ensure_player, ensure_game, shared_secret]
+
+    def post(self, api_client, game, player):
+        return {}
