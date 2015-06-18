@@ -36,6 +36,7 @@ class PlayerApiTest(HahTest):
         game = GameFactory()
         self.api_client.game = game
         game.players.append(PlayerFactory(id='UA1'))
+        db.session.commit()
 
         rv = self.auth_delete('/game/players/UA1')
         self.assert_200(rv)

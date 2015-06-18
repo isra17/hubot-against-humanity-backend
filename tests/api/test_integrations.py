@@ -25,7 +25,6 @@ class GameApiTest(HahTest):
         self.assertEqual('U1', rv_data['active_player'])
         self.assertIn('black', rv_data['active_card'])
 
-
         rv = self.auth_post('/game/players', data={'id':'U2'})
         self.assert_200(rv)
 

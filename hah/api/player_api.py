@@ -19,13 +19,13 @@ class PlayersApi(restful.Resource):
         player = Player(
                 id=player_id,
                 game=game)
+        db.session.add(player)
 
         player.pick_cards()
 
         if game.active_player is None:
             game.set_active_player(player)
 
-        db.session.add(player)
         db.session.commit()
         return player.serialize()
 
@@ -64,6 +64,12 @@ class PlayerApi(restful.Resource):
         return player.serialize()
 
     def delete(self, api_client, game, player):
+        if game.active_player == player:
+            players = game.players.all()
+            if len(players) == 1:
+                db.session.delete(game)
+            else:
+                game.active_player = players[(players.index(player)+1) % len(players)]
         db.session.delete(player)
         db.session.commit()
         return {}
