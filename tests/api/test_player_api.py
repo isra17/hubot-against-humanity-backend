@@ -83,3 +83,19 @@ class PlayerApiTest(HahTest):
         self.assertEqual('U1', game.active_player.id)
         self.assertEqual(6, game.active_player.played_card.id)
 
+    def test_play_card(self):
+        game = GameFactory(deck_seed=0)
+        self.api_client.game = game
+
+        rv = self.auth_post('/game/players', data={'id':'U1'})
+        self.assert_200(rv)
+        rv = self.auth_post('/game/players', data={'id':'U2'})
+        self.assert_200(rv)
+
+        rv = self.auth_post('/game/players/U2', data={'played_card':3})
+        self.assert_200(rv)
+        rv_data = json.loads(rv.data.decode('utf-8'))
+
+        self.assertEqual(3, rv_data['played_card']['id'])
+        self.assertEqual('white card 17', rv_data['played_card']['text'])
+

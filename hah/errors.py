@@ -35,3 +35,19 @@ class ParametersMissing(HTTPException):
     def __init__(self, param):
         super().__init__()
         self.data['message'] = 'Parameters "{}" missing'.format(param)
+
+class InvalidCard(HTTPException):
+    code = 422
+    data = {
+        'status': 422,
+        'code': 5,
+        'message': 'This card is invalid'
+    }
+
+class PlayerCantPlayer(HTTPException):
+    code = 422
+    data = {
+        'status': 422,
+        'code': 6,
+        'message': 'Player cannot play a card'
+    }

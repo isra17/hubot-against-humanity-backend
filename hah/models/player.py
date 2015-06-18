@@ -31,11 +31,18 @@ class Player(db.Model):
     def cards_text(self):
         return [c.text for c in self.cards]
 
+    def played_card_info(self):
+        if self.played_card is not None and self.played_card in self.cards:
+            return {
+                    'id': self.cards.index(self.played_card),
+                    'text': self.played_card.text
+            }
+
     def serialize(self):
         return {
             'id': self.id,
             'cards': self.cards_text(),
-            'played_card': None,
+            'played_card': self.played_card_info(),
             'score': self.score
         }
 

@@ -49,6 +49,20 @@ class PlayerApi(restful.Resource):
     def get(self, api_client, game, player):
         return player.serialize()
 
+    def post(self, api_client, game, player):
+        json = request.get_json()
+        card = int(json['played_card']) if json else None
+        if card is None:
+            raise errors.ParametersMissing('played_card')
+        if card >= len(player.cards):
+            raise errors.InvalidCard()
+        if game.active_player.id == player.id:
+            raise errors.PlayerCantPlayer
+
+        player.played_card = player.cards[card]
+        db.session.commit()
+        return player.serialize()
+
     def delete(self, api_client, game, player):
         db.session.delete(player)
         db.session.commit()
