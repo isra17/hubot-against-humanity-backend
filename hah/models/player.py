@@ -2,7 +2,7 @@ from hah import db
 from .card import Card
 
 PlayerCard = db.Table('player_cards', db.Model.metadata,
-    db.Column('player_id', db.String, db.ForeignKey('players.id')),
+    db.Column('player_id', db.String, db.ForeignKey('players.id'), ondelete='CASCADE'),
     db.Column('card_id', db.Integer, db.ForeignKey('cards.id'))
 )
 
@@ -20,6 +20,7 @@ class Player(db.Model):
                         db.ForeignKey(
                             'games.id',
                             use_alter=True,
+                            ondelete='CASCADE',
                             name='player_game'))
     cards =         db.relationship("Card", secondary=PlayerCard, order_by=Card.id)
 
