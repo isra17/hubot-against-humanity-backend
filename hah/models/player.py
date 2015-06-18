@@ -2,7 +2,7 @@ from hah import db
 from .card import Card
 
 PlayerCard = db.Table('player_cards', db.Model.metadata,
-    db.Column('player_id', db.String, db.ForeignKey('players.id'), ondelete='CASCADE'),
+    db.Column('player_id', db.String, db.ForeignKey('players.id', ondelete='CASCADE')),
     db.Column('card_id', db.Integer, db.ForeignKey('cards.id'))
 )
 
