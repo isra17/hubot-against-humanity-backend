@@ -15,7 +15,8 @@ class Game(db.Model):
             "Player",
             lazy='dynamic',
             foreign_keys='Player.game_id',
-            backref="game")
+            backref="game",
+            cascade="delete")
 
     active_player_id = db.Column(
             db.String,
