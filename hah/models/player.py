@@ -22,7 +22,7 @@ class Player(db.Model):
                             use_alter=True,
                             ondelete='CASCADE',
                             name='player_game'))
-    cards =         db.relationship("Card", secondary=PlayerCard, order_by=Card.id, cascade="delete")
+    cards =         db.relationship("Card", secondary=PlayerCard, order_by=Card.id)
 
     played_card_id =db.Column(db.Integer, db.ForeignKey('cards.id'), nullable=True)
     played_card =   db.relationship("Card", uselist=False)
