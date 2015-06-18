@@ -32,6 +32,15 @@ class GameApiTest(HahTest):
         rv = self.auth_post('/game/players', data={'id':'U3'})
         self.assert_200(rv)
 
-        rv = self.auth_post('/game/players/U2', data={'played_card':'3'})
+        rv = self.auth_put('/game/players/U2', data={'played_card':'3'})
+        self.assert_200(rv)
+
+        rv = self.auth_put('/game/players/U3', data={'played_card':'0'})
+        self.assert_200(rv)
+
+        rv = self.auth_post('/game/vote')
+        self.assert_200(rv)
+
+        rv = self.auth_post('/game/vote', data={'card': '1'})
         self.assert_200(rv)
 

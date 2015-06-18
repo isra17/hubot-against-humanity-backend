@@ -31,6 +31,10 @@ class HahTest(TestCase):
         self._add_header_auth_token(kwargs)
         return self.client.post(*args, **kwargs)
 
+    def auth_put(self, *args, **kwargs):
+        self._add_header_auth_token(kwargs)
+        return self.client.put(*args, **kwargs)
+
     def auth_get(self, *args, **kwargs):
         self._add_header_auth_token(kwargs)
         return self.client.get(*args, **kwargs)

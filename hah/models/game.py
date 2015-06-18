@@ -38,8 +38,14 @@ class Game(db.Model):
         self.deck_seed = struct.unpack('i', os.urandom(4))[0]
         super().__init__(**kw)
 
-    def players_ids(self):
-        return [p.id for p in self.players.all()]
+    def players_info(self):
+        return [
+                {
+                    'id': p.id,
+                    'played_card': p.played_card.text if p.played_card else None,
+                    'score': p.score
+                } for p in self.players.all()
+        ]
 
     def active_card(self):
         if self.active_player and self.active_player.played_card:
@@ -51,7 +57,7 @@ class Game(db.Model):
             'turn': self.turn,
             'active_player': self.active_player.id if self.active_player else None,
             'active_card': self.active_card(),
-            'players': self.players_ids()
+            'players': self.players_info()
         }
 
     def pick_white_cards(self, count):

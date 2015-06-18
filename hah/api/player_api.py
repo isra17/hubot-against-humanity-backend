@@ -49,7 +49,7 @@ class PlayerApi(restful.Resource):
     def get(self, api_client, game, player):
         return player.serialize()
 
-    def post(self, api_client, game, player):
+    def put(self, api_client, game, player):
         json = request.get_json()
         card = int(json['played_card']) if json else None
         if card is None:

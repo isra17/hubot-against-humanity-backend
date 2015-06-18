@@ -11,12 +11,6 @@ class GameTest(HahTest):
         self.assertEqual(60, game.deck_size)
         self.assertNotEqual(0, game.deck_seed)
 
-    def test_players_id(self):
-        game = Game()
-        game.players.append(PlayerFactory(id='UA1'))
-        game.players.append(PlayerFactory(id='UA2'))
-        self.assertEqual(['UA1','UA2'], game.players_ids())
-
     def test_pick_cards(self):
         game = GameFactory(deck_seed=0)
         db.session.commit()
