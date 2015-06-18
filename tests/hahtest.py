@@ -10,9 +10,9 @@ from tests.factory_boy.card_factory import CardFactory
 
 def create_cards():
     for i in range(10):
-        CardFactory(type='black')
+        CardFactory(text='black card {}'.format(i), type='black')
     for i in range(50):
-        CardFactory(type='white')
+        CardFactory(text='white card {}'.format(i), type='white')
 
 class HahTest(TestCase):
     def create_app(self):

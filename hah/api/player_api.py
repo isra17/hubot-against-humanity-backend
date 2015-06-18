@@ -22,6 +22,9 @@ class PlayersApi(restful.Resource):
 
         player.pick_cards()
 
+        if game.active_player is None:
+            game.set_active_player(player)
+
         db.session.add(player)
         db.session.commit()
         return player.serialize()

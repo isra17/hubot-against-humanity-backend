@@ -1,7 +1,9 @@
 from tests.hahtest import HahTest
 from hah.models.game import Game
 from hah.models.api_client import ApiClient
+from hah.models.card import Card
 from tests.factory_boy.game_factory import GameFactory
+from tests.factory_boy.player_factory import PlayerFactory
 import json
 
 class GameApiTest(HahTest):
@@ -27,6 +29,8 @@ class GameApiTest(HahTest):
 
     def test_get_game(self):
         game = GameFactory()
+        game.active_player = PlayerFactory(id='U1')
+        game.active_player.played_card = Card.query.first()
         self.api_client.game = game
 
         rv = self.auth_get('/game')
@@ -35,6 +39,8 @@ class GameApiTest(HahTest):
 
         self.assertIn('id', rv_data)
         self.assertEqual(0, rv_data['turn'])
+        self.assertEqual('U1', rv_data['active_player'])
+        self.assertEqual('black card 0', rv_data['active_card'])
 
     def test_delete_game(self):
         game = GameFactory()

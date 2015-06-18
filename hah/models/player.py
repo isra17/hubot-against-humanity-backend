@@ -14,6 +14,8 @@ class Player(db.Model):
     id =	    db.Column(db.String, primary_key=True)
     order_id =      db.Column(db.Integer, db.Sequence('order_seq'))
 
+    left_at =       db.Column(db.DateTime)
+
     game_id =       db.Column(db.Integer,
                         db.ForeignKey(
                             'games.id',

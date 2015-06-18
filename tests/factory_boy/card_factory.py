@@ -7,5 +7,3 @@ class CardFactory(factory.alchemy.SQLAlchemyModelFactory):
         model = Card
         sqlalchemy_session = db.session
 
-    text = factory.Sequence(lambda n: 'Test card {}'.format(n))
-

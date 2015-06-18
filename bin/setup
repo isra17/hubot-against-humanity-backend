@@ -18,9 +18,9 @@ hah.db.create_all()
 c = api_client.ApiClient(shared_secret=os.environ['TEST_SHARED_SECRET'])
 # Test cards
 for i in range(10):
-    CardFactory(type='black')
+    CardFactory(text='black card {}'.format(i), type='black')
 for i in range(50):
-    CardFactory(type='white')
+    CardFactory(text='white card {}'.format(i), type='white')
 
 hah.db.session.add(c)
 hah.db.session.commit()
