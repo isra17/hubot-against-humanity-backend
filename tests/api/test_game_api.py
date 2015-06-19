@@ -1,3 +1,4 @@
+from freezegun import freeze_time
 from tests.hahtest import HahTest
 from hah.models.game import Game
 from hah.models.api_client import ApiClient
@@ -50,4 +51,26 @@ class GameApiTest(HahTest):
         self.assert_200(rv)
 
         self.assertIsNone(ApiClient.query.first().game)
+
+    def test_game_ready_time_delay(self):
+        game = GameFactory()
+        game.players.append(PlayerFactory(id='U1'))
+        game.players.append(PlayerFactory(id='U2'))
+        game.players.append(PlayerFactory(id='U3'))
+        with freeze_time("2000-01-01 12:00:00"):
+            game.start_turn()
+            self.assertFalse(game.turn_ready())
+        with freeze_time("2000-01-01 12:00:20"):
+            self.assertTrue(game.turn_ready())
+
+    def test_game_ready_players_played(self):
+        game = GameFactory()
+        game.players.append(PlayerFactory(id='U1'))
+        game.players.append(PlayerFactory(id='U2'))
+        game.players.append(PlayerFactory(id='U3'))
+        game.start_turn()
+        game.players[1].played_card = Card.query.get(11)
+        self.assertFalse(game.turn_ready())
+        game.players[2].played_card = Card.query.get(12)
+        self.assertTrue(game.turn_ready())
 

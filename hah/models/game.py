@@ -1,14 +1,16 @@
 import random, os, struct
-from datetime import datetime
+from datetime import datetime, timedelta
 from hah import db
 from hah.models.card import Card
+
+TURN_DURATION = timedelta(seconds=15)
 
 class Game(db.Model):
     __tablename__ = 'games'
 
     id =        db.Column(db.Integer, primary_key=True)
 
-    turn_started_at = db.Column(db.DateTime, default=datetime.utcnow)
+    turn_started_at = db.Column(db.DateTime)
     game_stopped_at = db.Column(db.DateTime)
 
     players =   db.relationship(
@@ -67,6 +69,11 @@ class Game(db.Model):
 
         self.rotate_active_player()
         self.turn_started_at = datetime.utcnow()
+
+    def turn_ready(self):
+        return self.players.count() >= 3 and \
+            (datetime.utcnow() - self.turn_started_at > TURN_DURATION or \
+            all(p.played_card for p in self.players.all()))
 
     def rotate_active_player(self):
         players = self.players.all();
