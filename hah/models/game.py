@@ -11,6 +11,7 @@ class Game(db.Model):
     id =        db.Column(db.Integer, primary_key=True)
 
     turn_started_at = db.Column(db.DateTime)
+    turn_locked_at = db.Column(db.DateTime)
     game_stopped_at = db.Column(db.DateTime)
 
     players =   db.relationship(
