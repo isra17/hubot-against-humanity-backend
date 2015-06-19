@@ -67,10 +67,14 @@ class GameApiTest(HahTest):
         game = GameFactory()
         game.players.append(PlayerFactory(id='U1'))
         game.players.append(PlayerFactory(id='U2'))
-        game.players.append(PlayerFactory(id='U3'))
         game.start_turn()
+
         game.players[1].played_card = Card.query.get(11)
         self.assertFalse(game.turn_ready())
+
+        game.players.append(PlayerFactory(id='U3'))
+        self.assertFalse(game.turn_ready())
+
         game.players[2].played_card = Card.query.get(12)
         self.assertTrue(game.turn_ready())
 
