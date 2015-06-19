@@ -1,6 +1,6 @@
 import random, os, struct
 from datetime import datetime, timedelta
-from hah import db
+from hah import db, errors
 from hah.models.card import Card
 
 TURN_DURATION = timedelta(seconds=15)
@@ -70,10 +70,14 @@ class Game(db.Model):
         self.rotate_active_player()
         self.turn_started_at = datetime.utcnow()
 
-    def turn_ready(self):
-        return self.players.count() >= 3 and \
-            (datetime.utcnow() - self.turn_started_at > TURN_DURATION or \
-            all(p.played_card for p in self.players.all()))
+    def check_turn_ready(self):
+        players = self.players.all()
+        if len([p for p in players if p.played_card]) <= 2:
+            raise errors.NotEnoughPlayers()
+        if datetime.utcnow() - self.turn_started_at < TURN_DURATION and \
+                any(p.played_card is None for p in self.players.all()):
+            raise errors.TooEarly()
+        return True
 
     def rotate_active_player(self):
         players = self.players.all();

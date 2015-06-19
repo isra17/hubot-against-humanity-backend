@@ -44,10 +44,26 @@ class InvalidCard(HTTPException):
         'message': 'This card is invalid'
     }
 
-class PlayerCantPlayer(HTTPException):
+class PlayerCantPlay(HTTPException):
     code = 422
     data = {
         'status': 422,
         'code': 6,
         'message': 'Player cannot play a card'
+    }
+
+class TooEarly(HTTPException):
+    code = 422
+    data = {
+        'status': 422,
+        'code': 7,
+        'message': 'Cannot vote yet'
+    }
+
+class NotEnoughPlayers(HTTPException):
+    code = 422
+    data = {
+        'status': 422,
+        'code': 8,
+        'message': 'There need to be at least 2 players that voted'
     }

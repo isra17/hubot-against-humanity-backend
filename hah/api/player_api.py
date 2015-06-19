@@ -57,7 +57,7 @@ class PlayerApi(restful.Resource):
         if card >= len(player.cards):
             raise errors.InvalidCard()
         if game.active_player.id == player.id:
-            raise errors.PlayerCantPlayer
+            raise errors.PlayerCantPlay
 
         player.played_card = player.cards[card]
         db.session.commit()
@@ -79,4 +79,5 @@ class VoteApi(restful.Resource):
     method_decorators=[ensure_player, ensure_game, shared_secret]
 
     def post(self, api_client, game, player):
+        game.check_turn_ready()
         return {}
