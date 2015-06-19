@@ -70,6 +70,7 @@ class PlayerApi(restful.Resource):
                 db.session.delete(game)
             else:
                 game.active_player = players[(players.index(player)+1) % len(players)]
+                game.active_player.played_card = player.played_card
         db.session.delete(player)
         db.session.commit()
         return {}

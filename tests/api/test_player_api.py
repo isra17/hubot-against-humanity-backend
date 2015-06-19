@@ -35,13 +35,19 @@ class PlayerApiTest(HahTest):
     def test_leave_game(self):
         game = GameFactory()
         self.api_client.game = game
-        game.players.append(PlayerFactory(id='UA1'))
+        player = PlayerFactory(id='U1', played_card_id=11)
+        game.players.append(player)
+        game.active_player = player
+        game.players.append(PlayerFactory(id='U2'))
         db.session.commit()
 
-        rv = self.auth_delete('/game/players/UA1')
+        rv = self.auth_delete('/game/players/U1')
         self.assert_200(rv)
 
-        self.assertEqual(0, game.players.count())
+        db.session.refresh(game)
+        self.assertEqual(1, game.players.count())
+        self.assertEqual('U2', game.active_player.id)
+        self.assertEqual(11, game.active_player.played_card_id)
 
     def test_pick_cards_on_create(self):
         game = GameFactory(deck_seed=0)
