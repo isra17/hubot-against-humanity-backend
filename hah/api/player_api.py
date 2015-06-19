@@ -24,7 +24,7 @@ class PlayersApi(restful.Resource):
         player.pick_cards()
 
         if game.active_player is None:
-            game.set_active_player(player)
+            game.start_turn()
 
         db.session.commit()
         return player.serialize()
@@ -69,7 +69,7 @@ class PlayerApi(restful.Resource):
             if len(players) == 1:
                 db.session.delete(game)
             else:
-                game.active_player = players[(players.index(player)+1) % len(players)]
+                game.rotate_active_player()
                 game.active_player.played_card = player.played_card
         db.session.delete(player)
         db.session.commit()

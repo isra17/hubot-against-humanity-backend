@@ -61,6 +61,21 @@ class Game(db.Model):
             'players': self.players_info()
         }
 
+    def start_turn(self):
+        for p in self.players.all():
+            p.played_card = None
+
+        self.rotate_active_player()
+        self.turn_started_at = datetime.utcnow()
+
+    def rotate_active_player(self):
+        players = self.players.all();
+        if self.active_player is None:
+            self.set_active_player(players[0])
+        else:
+            self.set_active_player(
+                    players[(players.index(self.active_player)+1) % len(players)])
+
     def pick_white_cards(self, count):
         cards = list(range(1, self.deck_size+1))
         random.seed(self.deck_seed)
