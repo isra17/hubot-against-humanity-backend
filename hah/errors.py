@@ -65,5 +65,5 @@ class NotEnoughPlayers(HTTPException):
     data = {
         'status': 422,
         'code': 8,
-        'message': 'There need to be at least 2 players that voted'
+        'message': 'There need to be at least 2 players that played a card'
     }
