@@ -67,3 +67,20 @@ class NotEnoughPlayers(HTTPException):
         'code': 8,
         'message': 'There need to be at least 2 players that played a card'
     }
+
+class TurnNotLocked(HTTPException):
+    code = 422
+    data = {
+        'status': 422,
+        'code': 9,
+        'message': 'Turn must be locked to get played cards'
+    }
+
+class TurnLocked(HTTPException):
+    code = 422
+    data = {
+        'status': 422,
+        'code': 10,
+        'message': 'Cannot play card while a player is voting'
+    }
+

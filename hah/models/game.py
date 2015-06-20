@@ -55,11 +55,25 @@ class Game(db.Model):
         if self.active_player and self.active_player.played_card:
             return self.active_player.played_card.text
 
+    def played_cards(self):
+        if not self.turn_locked():
+            raise errors.TurnNotLocked()
+        return [p.played_card.text for p in self.players.all() if p.played_card]
+
+    def lock_turn(self):
+        self.turn_locked_at = datetime.utcnow()
+
+    def turn_locked(self):
+        return self.turn_locked_at is not None
+
+    def get_active_player(self):
+        return self.active_player.id if self.active_player else None
+
     def serialize(self):
         return {
             'id': self.id,
             'turn': self.turn,
-            'active_player': self.active_player.id if self.active_player else None,
+            'active_player': self.get_active_player(),
             'active_card': self.active_card(),
             'players': self.players_info()
         }

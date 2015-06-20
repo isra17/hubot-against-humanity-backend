@@ -1,6 +1,6 @@
 from flask import request
 from flask.ext import restful
-from hah.common.authenticate import shared_secret
+from hah.common.authenticate import shared_secret, ensure_game
 from hah.models.game import Game
 from hah import db, errors
 
@@ -31,3 +31,17 @@ class GameApi(restful.Resource):
         db.session.commit()
         return {}
 
+class VoteApi(restful.Resource):
+    method_decorators=[ensure_game, shared_secret]
+
+    def get(self, api_client, game):
+        game.check_turn_ready()
+        game.lock_turn()
+        return {
+            'played_cards': game.played_cards(),
+            'active_player': game.get_active_player()
+        }
+
+    def post(self, api_client, game):
+        game.check_turn_ready()
+        return {}
