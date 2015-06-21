@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import re
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir))
@@ -12,10 +13,13 @@ from tests.factory_boy.card_factory import CardFactory
 app = hah.create_app()
 app.test_request_context().push()
 
-hah.db.drop_all()
-hah.db.create_all()
+for t,fn in [('white', 'hah/data/white_cards.txt'),('black','hah/data/black_cards.txt')]:
+    f = open(fn,'r')
+    for l in f.readlines():
+        if re.match('_+[^_]+_', l):
+            continue
+        c = card.Card(text=l.strip(),type=t)
+        hah.db.session.add(c)
 
-c = api_client.ApiClient(shared_secret=os.environ['TEST_SHARED_SECRET'])
-
-hah.db.session.add(c)
 hah.db.session.commit()
+
