@@ -4,10 +4,13 @@ from hah.models.api_client import ApiClient
 from hah.models.card import Card
 from tests.factory_boy.game_factory import GameFactory
 from tests.factory_boy.player_factory import PlayerFactory
+from unittest.mock import patch
 import json
 
 class GameApiTest(HahTest):
-    def test_game(self):
+    @patch('os.urandom')
+    def test_game(self, urandom):
+        urandom.return_value = b'\x00'*4
         rv = self.auth_post('/game')
         self.assert_200(rv)
 

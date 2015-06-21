@@ -51,8 +51,11 @@ class Game(db.Model):
             return self.active_player.played_card.text
 
     def playing_players(self):
-        return [p for p in self.players.all() \
+        players = [p for p in self.players.all() \
                 if p != self.active_player and p.played_card]
+        random.seed(self.deck_seed + self.turn)
+        random.shuffle(players)
+        return players
 
     def played_cards(self):
         return [p.played_card.text for p in self.playing_players()]
