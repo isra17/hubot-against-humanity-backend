@@ -43,12 +43,7 @@ class Game(db.Model):
         super().__init__(**kw)
 
     def players_info(self):
-        return [
-                {
-                    'id': p.id,
-                    'played_card': p.played_card.text if p.played_card else None,
-                    'score': p.score
-                } for p in self.players.all()
+        return [p.serialize() for p in self.players.all()
         ]
 
     def active_card(self):
@@ -83,10 +78,14 @@ class Game(db.Model):
 
     def start_turn(self):
         for p in self.players.all():
+            if p.played_card is not None and p != self.active_player:
+                p.cards.remove(p.played_card)
+                p.pick_cards()
             p.played_card = None
 
         self.rotate_active_player()
         self.turn_started_at = datetime.utcnow()
+        self.turn_locked_at = None
 
     def check_turn_ready(self):
         players = self.players.all()
