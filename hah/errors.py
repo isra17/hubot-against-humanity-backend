@@ -84,3 +84,10 @@ class TurnLocked(HTTPException):
         'message': 'Cannot play card while a player is voting'
     }
 
+class PlayerCantVote(HTTPException):
+    code = 422
+    data = {
+        'status': 422,
+        'code': 11,
+        'message': 'Player is not the voting player'
+    }

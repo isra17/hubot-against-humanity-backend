@@ -33,7 +33,7 @@ class Game(db.Model):
 
     turn =	    db.Column(db.Integer, default=0)
     black_cards_picked = db.Column(db.Integer, default=0)
-    white_cards_picked =  db.Column(db.Integer, default=0)
+    white_cards_picked = db.Column(db.Integer, default=0)
     deck_size =     db.Column(db.Integer, nullable=False)
     deck_seed =     db.Column(db.Integer, nullable=False)
 
@@ -55,10 +55,12 @@ class Game(db.Model):
         if self.active_player and self.active_player.played_card:
             return self.active_player.played_card.text
 
+    def playing_players(self):
+        return [p for p in self.players.all() \
+                if p != self.active_player and p.played_card]
+
     def played_cards(self):
-        if not self.turn_locked():
-            raise errors.TurnNotLocked()
-        return [p.played_card.text for p in self.players.all() if p.played_card]
+        return [p.played_card.text for p in self.playing_players()]
 
     def lock_turn(self):
         self.turn_locked_at = datetime.utcnow()
@@ -69,14 +71,15 @@ class Game(db.Model):
     def get_active_player(self):
         return self.active_player.id if self.active_player else None
 
-    def serialize(self):
-        return {
+    def serialize(self, **kwargs):
+        return dict({
             'id': self.id,
             'turn': self.turn,
             'active_player': self.get_active_player(),
             'active_card': self.active_card(),
+            'played_cards': self.played_cards(),
             'players': self.players_info()
-        }
+        }, **kwargs)
 
     def start_turn(self):
         for p in self.players.all():
@@ -140,4 +143,13 @@ class Game(db.Model):
 
     def end_game(self):
         self.game_stopped_at = datetime.utcnow()
+
+    def vote(self, card_index):
+        self.check_turn_ready()
+        if not self.turn_locked():
+            raise errors.TurnNotLocked()
+
+        player = self.playing_players()[card_index]
+        player.score += 1
+        return player
 

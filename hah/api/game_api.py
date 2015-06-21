@@ -37,11 +37,14 @@ class VoteApi(restful.Resource):
     def get(self, api_client, game):
         game.check_turn_ready()
         game.lock_turn()
-        return {
-            'played_cards': game.played_cards(),
-            'active_player': game.get_active_player()
-        }
+        return game.serialize()
 
     def post(self, api_client, game):
-        game.check_turn_ready()
-        return {}
+        player_id = request.json['player']
+        card_index = request.json['card']
+        if player_id != game.active_player.played_card_id:
+            raise errors.PlayerCantVote()
+        player = game.vote(card_index)
+        game.start_turn()
+
+        return game.serialize(voted_player=player)
