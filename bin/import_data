@@ -16,7 +16,7 @@ app.test_request_context().push()
 for t,fn in [('white', 'hah/data/white_cards.txt'),('black','hah/data/black_cards.txt')]:
     f = open(fn,'r')
     for l in f.readlines():
-        if re.match('_+[^_]+_', l):
+        if re.match('.*_[^_]+_.*', l) is not None:
             continue
         c = card.Card(text=l.strip(),type=t)
         hah.db.session.add(c)
