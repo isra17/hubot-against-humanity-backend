@@ -39,13 +39,13 @@ class Player(db.Model):
                     'text': self.played_card.text
             }
 
-    def serialize(self):
-        return {
+    def serialize(self, **kwargs):
+        return dict({
             'id': self.id,
             'cards': self.cards_text(),
             'played_card': self.played_card_info(),
             'score': self.score
-        }
+        }, **kwargs)
 
     def pick_cards(self):
         cards = self.game.pick_white_cards(MAX_CARD_COUNT - len(self.cards))

@@ -63,7 +63,7 @@ class PlayerApi(restful.Resource):
 
         player.played_card = player.cards[card]
         db.session.commit()
-        return player.serialize()
+        return player.serialize(turn_ready=game.is_turn_ready())
 
     def delete(self, api_client, game, player):
         if game.active_player == player:

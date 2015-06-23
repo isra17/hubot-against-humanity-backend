@@ -55,6 +55,6 @@ class GameTest(HahTest):
             game.players[2].played_card = Card.query.get(12)
             with self.assertRaises(errors.TooEarly):
                 game.check_turn_ready()
-        with freeze_time("2000-01-01 12:00:20"):
+        with freeze_time("2000-01-01 12:01:01"):
             self.assertTrue(game.check_turn_ready())
 
