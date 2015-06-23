@@ -37,6 +37,7 @@ class VoteApi(restful.Resource):
     def get(self, api_client, game):
         game.check_turn_ready()
         game.lock_turn()
+        db.session.commit()
         return game.serialize()
 
     def post(self, api_client, game):
