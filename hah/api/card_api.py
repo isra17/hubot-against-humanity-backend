@@ -22,7 +22,7 @@ class CardsApi(restful.Resource):
 class CardApi(restful.Resource):
     method_decorators=[shared_secret]
     def delete(self, api_client, card_id):
-        Card.query.filter_by(id=card_id).delete()
+        Card.query.filter_by(api_client=api_client, id=card_id).delete()
         db.session.commit()
         return {}
 
