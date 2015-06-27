@@ -5,7 +5,7 @@ class GameAlreadyExistError(HTTPException):
     data = {
         'status': 422,
         'code': 1,
-        'message': 'A game is already created'
+        'message': 'A game is already running'
     }
 
 class PlayerAlreadyJoinedError(HTTPException):
@@ -13,7 +13,7 @@ class PlayerAlreadyJoinedError(HTTPException):
     data = {
         'status': 422,
         'code': 2,
-        'message': 'The player already joined the game'
+        'message': 'You already joined the game'
     }
 
 class NoGameRunningError(HTTPException):
@@ -49,7 +49,7 @@ class PlayerCantPlay(HTTPException):
     data = {
         'status': 422,
         'code': 6,
-        'message': 'Player cannot play a card'
+        'message': 'You cannot play a card'
     }
 
 class TooEarly(HTTPException):
@@ -57,7 +57,7 @@ class TooEarly(HTTPException):
     data = {
         'status': 422,
         'code': 7,
-        'message': 'Cannot vote yet'
+        'message': 'You cannot vote yet'
     }
 
 class NotEnoughPlayers(HTTPException):
@@ -73,7 +73,7 @@ class TurnNotLocked(HTTPException):
     data = {
         'status': 422,
         'code': 9,
-        'message': 'Turn must be locked to get played cards'
+        'message': 'You need to wait a bit more or that all player have played'
     }
 
 class TurnLocked(HTTPException):
@@ -81,7 +81,7 @@ class TurnLocked(HTTPException):
     data = {
         'status': 422,
         'code': 10,
-        'message': 'Cannot play card while a player is voting'
+        'message': 'You cannot play a card while a player is voting'
     }
 
 class PlayerCantVote(HTTPException):
@@ -89,5 +89,5 @@ class PlayerCantVote(HTTPException):
     data = {
         'status': 422,
         'code': 11,
-        'message': 'Player is not the voting player'
+        'message': 'You are not the voting player'
     }

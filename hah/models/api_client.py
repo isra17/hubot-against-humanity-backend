@@ -16,3 +16,14 @@ class ApiClient(db.Model):
 
     shared_secret = db.Column(db.String(length=88))
 
+    cards =   db.relationship(
+            "Card",
+            lazy='dynamic',
+            foreign_keys='Card.api_client_id',
+            backref="api_client",
+            cascade="delete",
+            order_by='Card.id')
+
+    def cards_info(self):
+        return [c.serialize() for c in self.cards.all()]
+

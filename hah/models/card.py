@@ -11,3 +11,13 @@ class Card(db.Model):
 
     deleted_at =db.Column(db.DateTime)
 
+    api_client_id = db.Column(db.Integer,
+                        db.ForeignKey(
+                            'api_clients.id',
+                            use_alter=True,
+                            ondelete='CASCADE',
+                            name='api_client_cards'),
+                        nullable=True)
+
+    def serialize(self):
+        return {'type': self.type, 'text': self.text, 'id':self.id}
