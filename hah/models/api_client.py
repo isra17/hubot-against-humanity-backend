@@ -1,3 +1,4 @@
+from hah.models.card import Card
 from hah import db
 import os
 
@@ -25,5 +26,5 @@ class ApiClient(db.Model):
             order_by='Card.id')
 
     def cards_info(self):
-        return [c.serialize() for c in self.cards.all()]
+        return [c.serialize() for c in self.cards.filter(Card.deleted_at == None)]
 

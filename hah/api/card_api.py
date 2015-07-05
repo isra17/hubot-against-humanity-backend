@@ -3,6 +3,7 @@ from flask.ext import restful
 from hah.common.authenticate import shared_secret, ensure_game
 from hah.models.card import Card
 from hah import db, errors
+from datetime import datetime
 
 class CardsApi(restful.Resource):
     method_decorators=[shared_secret]
@@ -22,7 +23,8 @@ class CardsApi(restful.Resource):
 class CardApi(restful.Resource):
     method_decorators=[shared_secret]
     def delete(self, api_client, card_id):
-        Card.query.filter_by(api_client=api_client, id=card_id).delete()
+        card = Card.query.filter_by(api_client=api_client, id=card_id).first()
+        card.deleted_at = datetime.utcnow()
         db.session.commit()
         return {}
 
