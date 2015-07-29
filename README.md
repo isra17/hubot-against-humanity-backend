@@ -1,11 +1,10 @@
-#### Hubot Against Humanity
+# Hubot Against Humanity
 
 This project implements the required logic to manage and persist multiples games of Cards Against Humanity. The backend aims to be used with [this Hubot script](https://www.npmjs.com/package/hubot-hubotagainsthumanity).
 
-### Installation
+## Installation
 
-
-## Heroku
+### Heroku
 
 The project have been tested with Heroku and Python 3.4.
 It must have a PostgresSql database set.
